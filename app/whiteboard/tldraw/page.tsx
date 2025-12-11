@@ -1,8 +1,9 @@
 'use client';
 
-import { Suspense, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import dynamic from 'next/dynamic';
 import TechBadge from '@/components/layout/TechBadge';
+import { ErrorBoundary } from '@/components/ErrorBoundary';
 import 'tldraw/tldraw.css';
 
 const Tldraw = dynamic(
@@ -80,12 +81,14 @@ export default function TldrawPage() {
       </div>
 
       <div style={{ flex: 1, position: 'relative', overflow: 'hidden' }}>
-        <Tldraw
-          onUiEvent={(name, data) => {
-            console.log('🎨 Tldraw UI Event:', name, data);
-          }}
-          autoFocus={false}
-        />
+        <ErrorBoundary>
+          <Tldraw
+            onUiEvent={(name, data) => {
+              console.log('🎨 Tldraw UI Event:', name, data);
+            }}
+            autoFocus={false}
+          />
+        </ErrorBoundary>
       </div>
     </div>
   );
