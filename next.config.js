@@ -4,6 +4,7 @@ const nextConfig = {
   typescript: {
     ignoreBuildErrors: false,
   },
+  transpilePackages: ['tldraw'],
 }
 
 module.exports = nextConfig

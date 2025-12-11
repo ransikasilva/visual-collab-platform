@@ -1,9 +1,8 @@
 'use client';
 
-import { Suspense } from 'react';
+import { Suspense, useEffect, useState } from 'react';
 import dynamic from 'next/dynamic';
 import TechBadge from '@/components/layout/TechBadge';
-import 'tldraw/tldraw.css';
 
 const Tldraw = dynamic(() => import('tldraw').then((mod) => mod.Tldraw), {
   ssr: false,
@@ -18,6 +17,25 @@ const Tldraw = dynamic(() => import('tldraw').then((mod) => mod.Tldraw), {
 });
 
 export default function TldrawPage() {
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    // Load CSS dynamically on client side
+    import('tldraw/tldraw.css');
+    setIsMounted(true);
+  }, []);
+
+  if (!isMounted) {
+    return (
+      <div className="h-full flex items-center justify-center bg-gray-50">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
+          <p className="text-gray-600">Loading whiteboard...</p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div style={{ display: 'flex', flexDirection: 'column', height: '100%', overflow: 'hidden' }}>
       <div className="bg-white border-b px-6 py-4" style={{ flexShrink: 0 }}>
