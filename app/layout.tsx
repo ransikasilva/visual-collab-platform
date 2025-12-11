@@ -2,7 +2,7 @@
 
 import { Inter } from 'next/font/google';
 import './globals.css';
-import './tldraw-styles.css';
+import './tldraw-vendor.css';
 import MainNavigation from '@/components/layout/MainNavigation';
 import { usePathname } from 'next/navigation';
 import Link from 'next/link';

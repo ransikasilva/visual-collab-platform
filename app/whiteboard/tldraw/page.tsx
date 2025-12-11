@@ -38,6 +38,24 @@ export default function TldrawPage() {
     const links = document.querySelectorAll('link[rel="stylesheet"]');
     console.log('📄 Loaded stylesheets:', Array.from(links).map(l => l.getAttribute('href')));
 
+    // Check for tldraw-specific styles
+    const styles = document.querySelectorAll('style');
+    console.log('📝 Style tags count:', styles.length);
+
+    // Check if tldraw classes exist
+    const hasTldrawClasses = document.querySelector('.tl-container');
+    console.log('🎨 Has tldraw classes in DOM:', !!hasTldrawClasses);
+
+    // Check computed styles
+    setTimeout(() => {
+      const tldrawDiv = document.querySelector('[data-tldraw]');
+      if (tldrawDiv) {
+        const computed = window.getComputedStyle(tldrawDiv);
+        console.log('💅 Tldraw div computed position:', computed.position);
+        console.log('💅 Tldraw div computed display:', computed.display);
+      }
+    }, 1000);
+
     return () => {
       console.log('📍 TldrawPage unmounted');
     };
