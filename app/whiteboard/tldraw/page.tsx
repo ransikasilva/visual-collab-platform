@@ -80,7 +80,12 @@ export default function TldrawPage() {
       </div>
 
       <div style={{ flex: 1, position: 'relative', overflow: 'hidden' }}>
-        <Tldraw />
+        <Tldraw
+          onUiEvent={(name, data) => {
+            console.log('🎨 Tldraw UI Event:', name, data);
+          }}
+          persistenceKey="tldraw-demo"
+        />
       </div>
     </div>
   );
