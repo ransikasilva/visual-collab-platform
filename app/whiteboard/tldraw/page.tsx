@@ -19,8 +19,8 @@ const Tldraw = dynamic(() => import('tldraw').then((mod) => mod.Tldraw), {
 
 export default function TldrawPage() {
   return (
-    <div className="h-full flex flex-col overflow-hidden">
-      <div className="bg-white border-b px-6 py-4 flex-shrink-0">
+    <div style={{ display: 'flex', flexDirection: 'column', height: '100%', overflow: 'hidden' }}>
+      <div className="bg-white border-b px-6 py-4" style={{ flexShrink: 0 }}>
         <h2 className="text-2xl font-bold mb-2">Whiteboard - Tldraw</h2>
         <p className="text-gray-600 mb-3">
           Modern whiteboard with smooth UX, similar to Figma's FigJam
@@ -32,12 +32,17 @@ export default function TldrawPage() {
         </div>
       </div>
 
-      <div className="flex-1" style={{ minHeight: 0, position: 'relative' }}>
-        <div style={{ position: 'absolute', inset: 0, width: '100%', height: '100%' }}>
-          <Suspense fallback={<div className="w-full h-full bg-gray-50" />}>
-            <Tldraw />
-          </Suspense>
-        </div>
+      <div style={{ flex: 1, position: 'relative', overflow: 'hidden' }}>
+        <Suspense fallback={
+          <div className="w-full h-full flex items-center justify-center bg-gray-50">
+            <div className="text-center">
+              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
+              <p className="text-gray-600">Loading whiteboard...</p>
+            </div>
+          </div>
+        }>
+          <Tldraw />
+        </Suspense>
       </div>
     </div>
   );
