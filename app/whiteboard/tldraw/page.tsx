@@ -9,66 +9,61 @@ const Tldraw = dynamic(
   () =>
     import('tldraw').then((mod) => {
       console.log('✅ Tldraw module loaded successfully');
-      console.log('Tldraw component:', mod.Tldraw);
       return mod.Tldraw;
     }),
   {
     ssr: false,
-    loading: () => {
-      console.log('⏳ Tldraw is loading...');
-      return (
-        <div className="w-full h-full flex items-center justify-center bg-gray-50">
-          <div className="text-center">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
-            <p className="text-gray-600">Loading whiteboard...</p>
-          </div>
-        </div>
-      );
-    },
   }
 );
 
 export default function TldrawPage() {
-  const [mounted, setMounted] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    console.log('📍 TldrawPage mounted');
-    setMounted(true);
+    // Global error handler to catch any errors
+    const handleError = (event: ErrorEvent) => {
+      console.error('❌ Global error caught:', event.error);
+      setError(event.error?.message || 'An error occurred');
+    };
 
-    // Check if CSS is loaded
-    const links = document.querySelectorAll('link[rel="stylesheet"]');
-    console.log('📄 Loaded stylesheets:', Array.from(links).map(l => l.getAttribute('href')));
+    const handleUnhandledRejection = (event: PromiseRejectionEvent) => {
+      console.error('❌ Unhandled promise rejection:', event.reason);
+      setError(event.reason?.message || 'An error occurred');
+    };
 
-    // Check for tldraw-specific styles
-    const styles = document.querySelectorAll('style');
-    console.log('📝 Style tags count:', styles.length);
-
-    // Check if tldraw classes exist
-    const hasTldrawClasses = document.querySelector('.tl-container');
-    console.log('🎨 Has tldraw classes in DOM:', !!hasTldrawClasses);
-
-    // Check computed styles
-    setTimeout(() => {
-      const tldrawDiv = document.querySelector('[data-tldraw]');
-      if (tldrawDiv) {
-        const computed = window.getComputedStyle(tldrawDiv);
-        console.log('💅 Tldraw div computed position:', computed.position);
-        console.log('💅 Tldraw div computed display:', computed.display);
-      }
-    }, 1000);
+    window.addEventListener('error', handleError);
+    window.addEventListener('unhandledrejection', handleUnhandledRejection);
 
     return () => {
-      console.log('📍 TldrawPage unmounted');
+      window.removeEventListener('error', handleError);
+      window.removeEventListener('unhandledrejection', handleUnhandledRejection);
     };
   }, []);
 
-  useEffect(() => {
-    if (mounted) {
-      console.log('🎨 Tldraw container rendered');
-      const container = document.querySelector('.tldraw');
-      console.log('Tldraw container element:', container);
-    }
-  }, [mounted]);
+  if (error) {
+    return (
+      <div style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
+        <div className="bg-white border-b px-6 py-4">
+          <h2 className="text-2xl font-bold mb-2">Whiteboard - Tldraw</h2>
+        </div>
+        <div className="flex-1 flex items-center justify-center bg-red-50">
+          <div className="text-center p-6 max-w-lg">
+            <h3 className="text-xl font-bold text-red-600 mb-2">Error Detected</h3>
+            <p className="text-red-800 mb-4">{error}</p>
+            <button
+              onClick={() => {
+                setError(null);
+                window.location.reload();
+              }}
+              className="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700"
+            >
+              Reload Page
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', height: '100%', overflow: 'hidden' }}>
@@ -84,38 +79,8 @@ export default function TldrawPage() {
         </div>
       </div>
 
-      <div
-        style={{ flex: 1, position: 'relative', overflow: 'hidden' }}
-        ref={(el) => {
-          if (el) {
-            console.log('📦 Tldraw container div dimensions:', {
-              width: el.offsetWidth,
-              height: el.offsetHeight,
-              clientWidth: el.clientWidth,
-              clientHeight: el.clientHeight,
-            });
-          }
-        }}
-      >
-        <Suspense fallback={
-          <div className="w-full h-full flex items-center justify-center bg-gray-50">
-            <div className="text-center">
-              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
-              <p className="text-gray-600">Loading whiteboard...</p>
-            </div>
-          </div>
-        }>
-          {mounted ? (
-            <>
-              {console.log('🚀 Rendering Tldraw component')}
-              <Tldraw onMount={() => console.log('✨ Tldraw onMount callback fired')} />
-            </>
-          ) : (
-            <div className="w-full h-full flex items-center justify-center bg-gray-50">
-              <p className="text-gray-600">Initializing...</p>
-            </div>
-          )}
-        </Suspense>
+      <div style={{ flex: 1, position: 'relative', overflow: 'hidden' }}>
+        <Tldraw />
       </div>
     </div>
   );
