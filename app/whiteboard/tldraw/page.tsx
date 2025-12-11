@@ -1,11 +1,20 @@
 'use client';
 
+import { Suspense } from 'react';
 import dynamic from 'next/dynamic';
 import TechBadge from '@/components/layout/TechBadge';
 import 'tldraw/tldraw.css';
 
 const Tldraw = dynamic(() => import('tldraw').then((mod) => mod.Tldraw), {
   ssr: false,
+  loading: () => (
+    <div className="w-full h-full flex items-center justify-center bg-gray-50">
+      <div className="text-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
+        <p className="text-gray-600">Loading whiteboard...</p>
+      </div>
+    </div>
+  ),
 });
 
 export default function TldrawPage() {
@@ -23,9 +32,11 @@ export default function TldrawPage() {
         </div>
       </div>
 
-      <div className="flex-1 relative" style={{ minHeight: 0 }}>
-        <div className="absolute inset-0">
-          <Tldraw />
+      <div className="flex-1" style={{ minHeight: 0, position: 'relative' }}>
+        <div style={{ position: 'absolute', inset: 0, width: '100%', height: '100%' }}>
+          <Suspense fallback={<div className="w-full h-full bg-gray-50" />}>
+            <Tldraw />
+          </Suspense>
         </div>
       </div>
     </div>
