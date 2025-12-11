@@ -10,8 +10,8 @@ const Tldraw = dynamic(() => import('tldraw').then((mod) => mod.Tldraw), {
 
 export default function TldrawPage() {
   return (
-    <div className="h-full flex flex-col">
-      <div className="bg-white border-b px-6 py-4">
+    <div className="h-full flex flex-col overflow-hidden">
+      <div className="bg-white border-b px-6 py-4 flex-shrink-0">
         <h2 className="text-2xl font-bold mb-2">Whiteboard - Tldraw</h2>
         <p className="text-gray-600 mb-3">
           Modern whiteboard with smooth UX, similar to Figma's FigJam
@@ -23,8 +23,10 @@ export default function TldrawPage() {
         </div>
       </div>
 
-      <div className="flex-1">
-        <Tldraw />
+      <div className="flex-1 relative" style={{ minHeight: 0 }}>
+        <div className="absolute inset-0">
+          <Tldraw />
+        </div>
       </div>
     </div>
   );

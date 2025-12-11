@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { Chart } from 'react-google-charts';
 import { Plus, Edit2, Trash2 } from 'lucide-react';
 
@@ -47,6 +47,7 @@ const initialTasks: Task[] = [
 export default function GoogleChartsGantt() {
   const [tasks, setTasks] = useState<Task[]>(initialTasks);
   const [editingTask, setEditingTask] = useState<Task | null>(null);
+  const tableRef = useRef<HTMLDivElement>(null);
 
   const chartData = [
     [
@@ -108,6 +109,15 @@ export default function GoogleChartsGantt() {
     setEditingTask(newTask);
   };
 
+  // Scroll to bottom when a new task is added
+  useEffect(() => {
+    if (editingTask && tableRef.current) {
+      setTimeout(() => {
+        tableRef.current?.scrollIntoView({ behavior: 'smooth', block: 'end' });
+      }, 100);
+    }
+  }, [editingTask]);
+
   const updateTask = (updatedTask: Task) => {
     setTasks(tasks.map((t) => (t.id === updatedTask.id ? updatedTask : t)));
     setEditingTask(null);
@@ -121,7 +131,7 @@ export default function GoogleChartsGantt() {
   };
 
   return (
-    <div className="flex flex-col gap-4 h-full">
+    <div className="flex flex-col gap-4">
       {/* Toolbar */}
       <div className="bg-gray-100 rounded-lg p-4 flex items-center gap-3">
         <button
@@ -143,7 +153,7 @@ export default function GoogleChartsGantt() {
       </div>
 
       {/* Task List/Editor */}
-      <div className="bg-white rounded-lg shadow-sm border overflow-auto">
+      <div ref={tableRef} className="bg-white rounded-lg shadow-sm border overflow-auto max-h-96">
         <table className="w-full text-sm">
           <thead className="bg-gray-50 border-b">
             <tr>
