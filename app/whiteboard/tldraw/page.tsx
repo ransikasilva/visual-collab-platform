@@ -83,6 +83,7 @@ export default function TldrawPage() {
       <div style={{ flex: 1, position: 'relative', overflow: 'hidden' }}>
         <ErrorBoundary>
           <Tldraw
+            licenseKey="tldraw-2026-03-21/WyJBVzhvV3lHdiIsWyIqIl0sMTYsIjIwMjYtMDMtMjEiXQ.DTIKPdBedP0TGMaUkx2qQKUxrgb7tPTTNcbjdKuoYOBeWVNcZ6aImCryRrQMnZiPPxykTtn7VBEVKvr41MEc+gheres"
             onUiEvent={(name, data) => {
               console.log('🎨 Tldraw UI Event:', name, data);
             }}
