@@ -1,7 +1,11 @@
 'use client';
 
-import KonvaCanvas from '@/components/whiteboard/konva/Canvas';
+import dynamic from 'next/dynamic';
 import TechBadge from '@/components/layout/TechBadge';
+
+const KonvaCanvas = dynamic(() => import('@/components/whiteboard/konva/Canvas'), {
+  ssr: false,
+});
 
 export default function KonvaPage() {
   return (

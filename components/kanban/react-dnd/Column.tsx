@@ -51,7 +51,7 @@ export default function Column({ column, tasks, moveTask }: ColumnProps) {
 
         {/* Drop Zone */}
         <div
-          ref={drop}
+          ref={drop as any}
           className={`flex-1 space-y-3 min-h-[200px] transition-colors rounded-lg p-2
             ${isOver ? 'bg-blue-50 border-2 border-blue-300 border-dashed' : ''}`}
         >

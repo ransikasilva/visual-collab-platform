@@ -13,7 +13,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@asseinfo/react-kanban": "^2.2.0",
     "@dnd-kit/core": "^6.3.1",
     "@dnd-kit/sortable": "^10.0.0",
     "@dnd-kit/utilities": "^3.2.2",
@@ -42,17 +41,12 @@
     "react-dnd-html5-backend": "^16.0.1",
     "react-dom": "^19.2.1",
     "react-force-graph-2d": "^1.29.0",
-    "react-force-graph-3d": "^1.29.0",
     "react-google-charts": "^5.2.1",
     "react-konva": "^19.2.1",
-    "react-mindmap": "^2.1.6",
     "reactflow": "^11.11.4",
-    "reaflow": "^5.4.1",
-    "reaviz": "^16.1.0",
     "tailwind-merge": "^3.4.0",
     "tldraw": "^4.2.1",
     "typescript": "^5.9.3",
-    "util-deprecate": "^1.0.2",
     "zustand": "^5.0.9"
   },
   "devDependencies": {
