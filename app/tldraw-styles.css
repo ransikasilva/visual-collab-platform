@@ -1,1 +1,2 @@
-@import 'tldraw/tldraw.css';
+/* Import tldraw CSS - copied to local file for Vercel deployment */
+@import './tldraw-vendor.css';
