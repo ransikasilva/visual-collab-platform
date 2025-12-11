@@ -84,7 +84,7 @@ export default function TldrawPage() {
           onUiEvent={(name, data) => {
             console.log('🎨 Tldraw UI Event:', name, data);
           }}
-          persistenceKey="tldraw-demo"
+          autoFocus={false}
         />
       </div>
     </div>
