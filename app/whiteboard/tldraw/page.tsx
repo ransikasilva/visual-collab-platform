@@ -3,6 +3,7 @@
 import { Suspense, useEffect, useState } from 'react';
 import dynamic from 'next/dynamic';
 import TechBadge from '@/components/layout/TechBadge';
+import 'tldraw/tldraw.css';
 
 const Tldraw = dynamic(
   () =>
